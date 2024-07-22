@@ -3,39 +3,50 @@ def create_favorite_hash(color, number)
     color: color,
     number: number
   }
+  end
+
+def favorite_color(list)
+  list[:color]
 end
 
-def favorite_color(hash)
-  return hash[:color]
+def favorite_number(list)
+  list[:number]
 end
 
-def favorite_number(hash)
-  return hash.fetch(:number)
+def update_favorite_movie(list, movie)
+  list[:movie] = movie
+  list[:movie]
 end
 
-def update_favorite_movie(hash, movie)
-  return hash[:movie] = movie
+def remove_favorite_number(list)
+  list.delete(:number)
+  list
 end
 
-def remove_favorite_number(hash)
-  no_number_hash = hash.delete(:number)
-  return no_number_hash
+def favorite_categories(list)
+  list.keys
 end
 
-def favorite_categories(hash)
-  return hash.keys
+def favorite_items(list)
+  list.values
 end
 
-def favorite_items(hash)
-  return hash.values
+other_favorites = {
+  holiday: "Halloween",
+  drink: "Beer"
+}
+
+def merge_favorites(list, new_list)
+  list.merge(new_list)
 end
 
-
-
-favorite_hash = create_favorite_hash("blue", 11)
+  favorite_hash = create_favorite_hash("blue", 11)
+puts favorite_hash
 puts favorite_color(favorite_hash)
 puts favorite_number(favorite_hash)
-update_favorite_movie(favorite_hash, "The Dark Knight")
-remove_favorite_number(favorite_hash)
-puts favorite_hash
+puts update_favorite_movie(favorite_hash, "The Dark Knight")
+puts remove_favorite_number(favorite_hash)
+puts favorite_categories(favorite_hash)
 puts favorite_items(favorite_hash)
+puts favorite_hash = merge_favorites(favorite_hash, other_favorites)
+puts other_favorites

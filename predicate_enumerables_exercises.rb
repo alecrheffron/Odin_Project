@@ -1,42 +1,40 @@
-def coffee_drink(drink_list)
-  drink_list.include?("coffee") ||
-  drink_list.include?("espresso")
+drink_list = ["coffee", "espresso", "coke", "wine", "beer"]
+
+def coffee_drink?(list)
+  list.include?("coffee") ||
+  list.include?("espresso")
 end
-drink_list = ["water",
-              "coke",
-              "espresso",
-              "coffee"]
 
-puts coffee_drink(drink_list)
+guess_list = [54, 765, 235, 8576, 2]
 
-def correct_guess(guess_list, answer)
-  puts guess_list.any? { |guess| guess == answer}
+def correct_guess?(list, answer)
+  list.any?(answer)
 end
-guess_list = [3, 4, 5, 6, 7, 8]
-answer = 8
 
-correct_guess(guess_list, answer)
+year_list = [2000, 2099, 2100]
 
-def twenty_first_century_years(year_list)
-  year_list.all? { |year| year > 2000 && year < 2100}
+def twenty_first_century_years?(list)
+  list.all? { |year| year < 2100 && year > 1999 }
 end
-year_list = [2001, 2101, 2099]
 
-puts twenty_first_century_years(year_list)
+word_list = ["super", "DUPEr", "okey dokey"]
 
-def correct_format?(word_list)
-  word_list.none? { |word| word == word.upcase }
+def correct_format?(list)
+  list.none? { |word| word == word.upcase }
 end
-word_list = ["CAT",
-              "dog",
-              "house"]
 
+score_list = {
+  Charles: 77,
+  Tess: 100,
+  Alec: 100
+}
+
+def valid_scores?(list, perfect_score)
+  list.one? { |student, score| score == perfect_score }
+end
+
+puts coffee_drink?(drink_list)
+puts correct_guess?(guess_list, 2)
+puts twenty_first_century_years?(year_list)
 puts correct_format?(word_list)
-
-def valid_scores?(score_list, perfect_score)
-  score_list.one? { |score| score == perfect_score}
-end
-score_list = [45, 78, 87, 100, 100, 34]
-perfect_score = 100
-
-puts valid_scores?(score_list, perfect_score)
+puts valid_scores?(score_list, 100)
