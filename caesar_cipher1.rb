@@ -20,3 +20,5 @@ end
 
 ciphered_word = caesar_cipher('Oh, how I long for you, you sexy little thing', -5)
 puts ciphered_word
+unciphered_word = caesar_cipher(ciphered_word, 5)
+puts unciphered_word
