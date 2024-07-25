@@ -1,22 +1,57 @@
-# Split string into array
-# Iterate through array and shift to left(-) or right(+)
-# Puts array back into a string
-# Return Cipher
+# frozen_string_literal: true
 
-def caesar_cipher(string, shift = 1)
-  alphabet = Array('a'..'z')
-  non_caps = Hash[alphabet.zip(alphabet.rotate(shift))]
+# The CaesarCipher class provieds functionality to encode a string using the Caesar cipher technique
+class CaesarCipher
+  # Initialized a new CaesarCipher object
+  #
+  # @param string [String] the string to be encoded
+  # @param shift [Integer] the number of positions to shift each character (default: 4)
+  def initialize(string, shift = 4)
+    @string = string
+    @shift = shift
+  end
 
-  alphabet = Array('A'..'Z')
-  caps     = Hash[alphabet.zip(alphabet.rotate(shift))]
+  # Encodes the string using the Caesar cipher technique
+  #
+  # @return [String] the encoded string
+  def encode
+    @string.chars.map { |char| shift_char(char) }.join
+  end
 
-  encrypter = non_caps.merge(caps)
+  private
 
-  string.chars.map {  |c| encrypter.fetch(c, c) }
+  # Shifts a character by the given shift amount
+  #
+  # @param char [String] the character to shift
+  # @return [String] the shifted character
+  def shift_char(char)
+    if char =~ /[A-Z]/
+      shift_within_range(char, 65, 90)
+    elsif char =~ /[a-z]/
+      shift_within_range(char, 97, 122)
+    else
+      char
+    end
+  end
+
+  # Shifts a character within the specified ASCII range
+  #
+  # @param char [String] the character to shift
+  # @param range_start [Integer] the start of the ASCII range
+  # @param range_end [Integer] the end of the ASCII range
+  # @return [String] the shifted character
+  def shift_within_range(char, range_start, range_end)
+    shifted = char.ord + @shift
+    if shifted > range_end
+      (shifted - 26).chr
+    elsif shifted < range_start
+      (shifted + 26).chr
+    else
+      shifted.chr
+    end
+  end
 end
-puts 'What would you like to cipher: '
-word = gets.chomp
-puts 'And cipher code: '
-code = gets.chomp
-number = code.to_i
-p caesar_cipher(word, number).join
+
+# Example usage:
+cipher = CaesarCipher.new('Oh, how I long for you, you sexy little thing', -5)
+p cipher.encode

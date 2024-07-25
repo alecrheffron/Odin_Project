@@ -27,24 +27,24 @@ class RockPaperScissors
           puts "Ha! I picked #{cg}... you suck!!!"
           puts "\n"
           cs += 1
-        elsif pg == cg
+        elsif pg == cg # Tie
           puts "Darn, same here"
           puts "\n"
-        else
+        else # Unaccepted input
           puts "That's not what i asked"
           puts "\n"
         end
       end
-      if ps == gw
+      if ps == gw # Player win
         puts "You got #{gw} so you win!"
-      elsif cs == gw
+      elsif cs == gw # Computer win
         puts "I got #{gw}, I win so suck it nerd!!"
       end
       puts "Wanna keep going?"
       answer = gets.chomp.capitalize
-      if answer == "Yes"
+      if answer == "Yes" # Keep playing
         gw += 1
-      elsif answer == "No"
+      elsif answer == "No" # Done playing
         puts "Final score #{p1}: #{ps}, Computer: #{cs}"
         break
       else
