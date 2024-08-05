@@ -13,7 +13,8 @@ class SubStrings
     puts "hello"[-1]
   end
 end
-
+whatitsay = SubStrings.new
+whatitsay.what_it_say
 # Different ways to set up either/or response
 '
 if 1 < 2
