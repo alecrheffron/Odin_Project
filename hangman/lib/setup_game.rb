@@ -14,6 +14,45 @@ class SetupGame
     @guesses_made = 0
   end
 
+  def play
+    until game_over?
+      ask_to_save_game
+      print_board
+      print_blank_word
+      puts "You have #{5 - @guesses_made} guesses left!"
+      guess_a_letter
+      if letter_exist?
+        compare_words(@guess)
+      else
+        @guesses_made += 1
+      end
+    end
+    game_finish
+  end
+
+  private
+
+  # Serialization: Save game state
+  def save_game(file_path = 'save_game.dat')
+    File.open(file_path, 'wb') do |file|
+      Marshal.dump(self, file)
+    end
+  end
+
+  # Deserialization: Load game state
+  def self.load_game(file_path = 'save_game.dat')
+    File.open(file_path, 'rb') do |file|
+      Marshal.load(file)
+    end
+  end
+
+  def ask_to_save_game
+    puts 'Would you like to save the game? (y/n)'
+    if gets.chomp.downcase == 'y'
+      save_game
+      puts 'Game saved!'
+    end
+  end
 
   # Prints the blank word
   def print_blank_word
@@ -43,21 +82,6 @@ class SetupGame
     @used_letters << @guess unless @used_letters.include?(@guess)
   end
 
-  def round_processer
-    until game_over?
-      print_board
-      print_blank_word
-      puts "You have #{5 - @guesses_made} guesses left!"
-      guess_a_letter
-      if letter_exist?
-        compare_words(@guess)
-      else
-        @guesses_made += 1
-      end
-    end
-    game_finish
-  end
-
   # Checks if letter is in the code word
   def letter_exist?
     @code_word.include?(@guess)
@@ -81,7 +105,10 @@ class SetupGame
   # Prints final game results
   def game_finish
     puts 'Congrats!! You win!' if player_win?
-    puts "You are out of guesses, you lose... oh by the way the word was #{@code_word}" if player_lose?
+    if player_lose?
+      print_board
+      puts "You are out of guesses, you lose... oh by the way the word was #{@code_word}"
+    end
   end
 
   # Makes the code word into '_' for the board
