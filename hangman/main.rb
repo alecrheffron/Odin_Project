@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require_relative 'lib/game_word'
 require_relative 'lib/setup_game'
 
 def start_new_game
-  code_word = WordGame.new("data/words.txt").game_word
+  code_word = WordGame.new('data/words.txt').game_word
   SetupGame.new(code_word)
 end
 

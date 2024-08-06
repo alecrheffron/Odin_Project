@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class SetupGame
   def initialize(code_word)
     @code_word = code_word
     @blank_word = make_blank_word(@code_word)
     @board = [
-      ["_____  "],
-      ["   |   "],
-      ["   O   "],
-      ["  /|\\  "],
-      ["   |   "],
-      ["  / \\  "]
+      ['_____  '],
+      ['   |   '],
+      ['   O   '],
+      ['  /|\\  '],
+      ['   |   '],
+      ['  / \\  ']
     ]
     @used_letters = []
     @guesses_made = 0
@@ -16,11 +18,7 @@ class SetupGame
 
   def play
     until game_over?
-      ask_to_save_game
-      print_board
-      print_blank_word
-      puts "You have #{5 - @guesses_made} guesses left!"
-      guess_a_letter
+      process_round
       if letter_exist?
         compare_words(@guess)
       else
@@ -29,8 +27,6 @@ class SetupGame
     end
     game_finish
   end
-
-  private
 
   # Serialization: Save game state
   def save_game(file_path = 'save_game.dat')
@@ -46,12 +42,22 @@ class SetupGame
     end
   end
 
+  private
+
+  def process_round
+    # ask_to_save_game
+    print_board
+    print_blank_word
+    puts "You have #{5 - @guesses_made} guesses left!"
+    guess_a_letter
+  end
+
   def ask_to_save_game
     puts 'Would you like to save the game? (y/n)'
-    if gets.chomp.downcase == 'y'
-      save_game
-      puts 'Game saved!'
-    end
+    return unless gets.chomp.downcase == 'y'
+
+    save_game
+    puts 'Game saved!'
   end
 
   # Prints the blank word
@@ -71,7 +77,7 @@ class SetupGame
   def compare_words(guess)
     code_array = @code_word.split('')
     code_array.each_with_index do |letter, index|
-       modify_blank_word(guess, index) if letter == guess
+      modify_blank_word(guess, index) if letter == guess
     end
   end
 
@@ -105,14 +111,15 @@ class SetupGame
   # Prints final game results
   def game_finish
     puts 'Congrats!! You win!' if player_win?
-    if player_lose?
-      print_board
-      puts "You are out of guesses, you lose... oh by the way the word was #{@code_word}"
-    end
+    return unless player_lose?
+
+    print_board
+    puts "You are out of guesses, you lose... oh by the way the word was #{@code_word}"
   end
 
   # Makes the code word into '_' for the board
   def make_blank_word(code_word)
     code_word.gsub(/[A-Za-z]/, '_').split('')
   end
+
 end
